@@ -15,7 +15,9 @@ router.post('/csv', product_controller.product_csv);
 
 router.get('/:id', product_controller.product_details);
 
+router.get('/json/csv', product_controller.product_jsontocsv);
 router.get('/', product_controller.product_details1);
+
 
 router.put('/:id/update', product_controller.product_update);
 

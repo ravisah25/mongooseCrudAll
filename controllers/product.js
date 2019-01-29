@@ -1,4 +1,6 @@
 var Product = require('../models/product');
+var jsonexport = require('jsonexport');
+
 
 //Simple version, without validation or sanitation
 exports.test = function (req, res) {
@@ -58,10 +60,62 @@ exports.product_details = function (req, res) {
     })
 };
 
+exports.product_jsontocsv = function (req, res) {
+
+    var contacts = [{
+        name: 'Bob',
+        lastname: 'Smith',
+        family: {
+            name: 'Peter',
+            type: 'Father'
+        }
+    }, {
+        name: 'James',
+        lastname: 'David',
+        family: {
+            name: 'Julie',
+            type: 'Mother'
+        }
+    }, {
+        name: 'Robert',
+        lastname: 'Miller',
+        family: null,
+        location: [1231, 3214, 4214]
+    }, {
+        name: 'David',
+        lastname: 'Martin',
+        nickname: 'dmartin'
+    }];
+
+    // jsonexport(contacts, function (err, csv) {
+    //     if (err) return console.log(err);
+    //     console.log(csv);
+    // });
+    var data;
+    Product.find({},{ '_id': 0,'__v': 0} ,function (err, product) {
+        if (err) return next(err);
+        if(product){
+            console.log(product);
+         data  = product;
+         
+        }
+   
+    })
+    setTimeout( function() {
+        jsonexport(JSON.stringify(data), function (err, csv) {
+            if (err) return console.log("fsdf",err);
+            console.log(csv);
+        });
+    }, 10000 );
+};
 exports.product_details1 = function (req, res) {
     Product.find(req.params.id, function (err, product) {
         if (err) return next(err);
-        res.send(product);
+        jsonexport(contacts, function (err, csv) {
+            if (err) return console.log(err);
+            console.log(csv);
+        });
+
     })
 };
 
