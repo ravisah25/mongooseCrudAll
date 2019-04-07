@@ -1,5 +1,5 @@
-var Product = require('../models/product');
-var jsonexport = require('jsonexport');
+const jsonexport = require('jsonexport');
+const product = require('../service/product');
 
 
 //Simple version, without validation or sanitation
@@ -7,20 +7,29 @@ exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
 };
 
-exports.product_create = function (req, res) {
-    var product = new Product(
-        {
-            name: req.body.name,
-            price: req.body.price
-        }
-    );
+module.exports.product_create = async (req, res) => {
 
-    product.save(function (err) {
-        if (err) {
-            return next(err);
-        }
-        res.send('Product Created successfully')
-    })
+    try {
+        let response = await product.upload(req);
+        res.status(200).send({success: true, error : false, data: response});
+    }
+    catch (e){
+        res.status(400).send({success: false, error : true, data: `${e}`});
+    }
+
+    // var product = new Product(
+    //     {
+    //         name: req.body.name,
+    //         price: req.body.price
+    //     }
+    // );
+
+    // product.save(function (err) {
+    //     if (err) {
+    //         return next(err);
+    //     }
+    //     res.send('Product Created successfully')
+    // })
 };
 
 
@@ -92,21 +101,21 @@ exports.product_jsontocsv = function (req, res) {
     //     console.log(csv);
     // });
     var data;
-    Product.find({},{ '_id': 0,'__v': 0} ,function (err, product) {
+    Product.find({}, { '_id': 0, '__v': 0 }, function (err, product) {
         if (err) return next(err);
-        if(product){
+        if (product) {
             console.log(product);
-         data  = product;
-         
+            data = product;
+
         }
-   
+
     })
-    setTimeout( function() {
+    setTimeout(function () {
         jsonexport(JSON.stringify(data), function (err, csv) {
-            if (err) return console.log("fsdf",err);
+            if (err) return console.log("fsdf", err);
             console.log(csv);
         });
-    }, 10000 );
+    }, 10000);
 };
 exports.product_details1 = function (req, res) {
     Product.find(req.params.id, function (err, product) {
