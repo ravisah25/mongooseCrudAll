@@ -17,7 +17,7 @@ const ProductSchema = new Schema({
     }
 });
 
-autoIncrement.initialize(mongoose.Connection)
+autoIncrement.initialize(mongoose.connection)
 
 ProductSchema.plugin(uniqueValidator, {
     message: 'already exists'

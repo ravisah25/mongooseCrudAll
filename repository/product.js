@@ -1,7 +1,5 @@
 const product = require('../models/product')
 
-module.exports.upload = (body) =>{
-
+module.exports.upload = async (body) =>{
     return await product.create(body);
-
 }

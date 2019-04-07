@@ -11,25 +11,11 @@ module.exports.product_create = async (req, res) => {
 
     try {
         let response = await product.upload(req);
-        res.status(200).send({success: true, error : false, data: response});
+        res.status(200).send({ success: true, error: false, data: response });
     }
-    catch (e){
-        res.status(400).send({success: false, error : true, data: `${e}`});
+    catch (e) {
+        res.status(400).send({ success: false, error: true, data: `${e}` });
     }
-
-    // var product = new Product(
-    //     {
-    //         name: req.body.name,
-    //         price: req.body.price
-    //     }
-    // );
-
-    // product.save(function (err) {
-    //     if (err) {
-    //         return next(err);
-    //     }
-    //     res.send('Product Created successfully')
-    // })
 };
 
 

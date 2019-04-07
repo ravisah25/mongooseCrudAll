@@ -4,3 +4,5 @@ const product = require('./product');
 
 
 router.post('/',product);
+
+module.exports = router;
